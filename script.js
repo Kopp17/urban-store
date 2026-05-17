@@ -1,4 +1,4 @@
-// ========== PRODUITS ==========
+// ========== DONNÉES PRODUITS ==========
 const products = [
     // Mode
     { id: 1, name: "T-shirt Premium", price: 15000, category: "mode", image: "https://picsum.photos/id/20/300/300", rating: 4.5, sold: 128, badge: "Nouveau" },
@@ -25,7 +25,7 @@ const products = [
     { id: 18, name: "Maquillage Kit", price: 35000, category: "beaute", image: "https://picsum.photos/id/37/300/300", rating: 4.4, sold: 156 }
 ];
 
-// ========== VARIABLES ==========
+// ========== VARIABLES GLOBALES ==========
 let cart = [];
 let currentCategory = "all";
 let currentProducts = [...products];
@@ -37,16 +37,22 @@ function init() {
     loadCart();
     updateCartCount();
     
-    document.getElementById("searchInput").addEventListener("keypress", function(e) {
-        if (e.key === "Enter") searchProducts();
-    });
+    const searchInput = document.getElementById("searchInput");
+    if (searchInput) {
+        searchInput.addEventListener("keypress", function(e) {
+            if (e.key === "Enter") searchProducts();
+        });
+    }
     
-    document.getElementById("newsletterForm").addEventListener("submit", function(e) {
-        e.preventDefault();
-        const email = this.querySelector('input').value;
-        showToast(`Merci ${email} ! 🎉`, "success");
-        this.reset();
-    });
+    const newsletterForm = document.getElementById("newsletterForm");
+    if (newsletterForm) {
+        newsletterForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input').value;
+            showToast(`Merci ${email} ! 🎉`, "success");
+            this.reset();
+        });
+    }
 }
 
 // ========== AFFICHAGE PRODUITS ==========
@@ -118,8 +124,13 @@ function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (!product) return;
     const existing = cart.find(item => item.id === productId);
-    if (existing) { existing.quantity++; showToast(`+1 ${product.name}`, "info"); }
-    else { cart.push({ ...product, quantity: 1 }); showToast(`${product.name} ajouté ✅`, "success"); }
+    if (existing) { 
+        existing.quantity++; 
+        showToast(`+1 ${product.name}`, "info"); 
+    } else { 
+        cart.push({ ...product, quantity: 1 }); 
+        showToast(`${product.name} ajouté ✅`, "success"); 
+    }
     saveCart();
     updateCartCount();
     updateCartModal();
@@ -127,7 +138,11 @@ function addToCart(productId) {
 
 function removeFromCart(productId) {
     const index = cart.findIndex(item => item.id === productId);
-    if (index !== -1) { const removed = cart[index]; cart.splice(index, 1); showToast(`${removed.name} retiré ❌`, "info"); }
+    if (index !== -1) { 
+        const removed = cart[index]; 
+        cart.splice(index, 1); 
+        showToast(`${removed.name} retiré ❌`, "info"); 
+    }
     saveCart();
     updateCartCount();
     updateCartModal();
@@ -152,11 +167,13 @@ function updateCartModal() {
     const container = document.getElementById("cartItems");
     const totalElem = document.getElementById("cartTotal");
     if (!container) return;
+    
     if (cart.length === 0) {
         container.innerHTML = `<div class="empty-cart"><i class="fas fa-shopping-cart"></i><h3>Panier vide</h3><p>Ajoutez des produits</p></div>`;
         if (totalElem) totalElem.innerHTML = "";
         return;
     }
+    
     let total = 0;
     container.innerHTML = cart.map(item => {
         total += item.price * item.quantity;
@@ -175,53 +192,100 @@ function updateCartModal() {
             </div>
         `;
     }).join('');
+    
     if (totalElem) totalElem.innerHTML = `<strong>Total: ${total.toLocaleString()} FCFA</strong>`;
 }
 
-// ========== COMMANDE ==========
-function openCart() { updateCartModal(); document.getElementById("cartModal").style.display = "flex"; }
-function closeCart() { document.getElementById("cartModal").style.display = "none"; }
-function closeCheckout() { document.getElementById("checkoutModal").style.display = "none"; }
-function toggleUserMenu() { showToast("Bientôt disponible! 🔧", "info"); }
+// ========== MODALS ==========
+function openCart() { 
+    updateCartModal(); 
+    document.getElementById("cartModal").style.display = "flex"; 
+}
+
+function closeCart() { 
+    document.getElementById("cartModal").style.display = "none"; 
+}
+
+function closeCheckout() { 
+    document.getElementById("checkoutModal").style.display = "none"; 
+}
+
+function toggleUserMenu() { 
+    showToast("Bientôt disponible! 🔧", "info"); 
+}
 
 function checkout() {
-    if (cart.length === 0) { showToast("Panier vide !", "error"); return; }
+    if (cart.length === 0) { 
+        showToast("Panier vide !", "error"); 
+        return; 
+    }
     closeCart();
     document.getElementById("checkoutModal").style.display = "flex";
 }
 
-document.getElementById("checkoutForm")?.addEventListener("submit", function(e) {
-    e.preventDefault();
-    const name = document.getElementById("clientName").value;
-    const phone = document.getElementById("clientPhone").value;
-    const address = document.getElementById("clientAddress").value;
-    const payment = document.getElementById("paymentMethod").value;
-    const comment = document.getElementById("clientComment").value;
-    
-    if (!name || !phone || !address) { showToast("Remplissez tous les champs !", "error"); return; }
-    
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    let msg = `🛍️ *NOUVELLE COMMANDE*%0A━━━━━━━━━━━━━━━━%0A👤 ${name}%0A📞 ${phone}%0A📍 ${address}%0A💳 ${payment}%0A%0A📦 *DÉTAILS*%0A`;
-    cart.forEach((item, i) => { msg += `${i+1}. ${item.name} x${item.quantity} = ${(item.price * item.quantity).toLocaleString()} FCFA%0A`; });
-    msg += `━━━━━━━━━━━━━━━━%0A💰 *TOTAL: ${total.toLocaleString()} FCFA*%0A`;
-    if (comment) msg += `%0A💬 ${comment}%0A`;
-    msg += `%0A_Merci !_ 🙏`;
-    
-    window.open(`https://wa.me/2250758167537?text=${msg}`, '_blank');
-    cart = [];
-    saveCart();
-    updateCartCount();
-    updateCartModal();
-    closeCheckout();
-    showToast("Commande envoyée ! 🎉", "success");
-    this.reset();
-});
+// ========== FORMULAIRE DE COMMANDE ==========
+const checkoutForm = document.getElementById("checkoutForm");
+if (checkoutForm) {
+    checkoutForm.addEventListener("submit", function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById("clientName").value;
+        const phone = document.getElementById("clientPhone").value;
+        const address = document.getElementById("clientAddress").value;
+        const payment = document.getElementById("paymentMethod").value;
+        const comment = document.getElementById("clientComment").value;
+        
+        if (!name || !phone || !address) { 
+            showToast("Remplissez tous les champs !", "error"); 
+            return; 
+        }
+        
+        const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        let msg = `🛍️ *NOUVELLE COMMANDE URBAN STORE*%0A`;
+        msg += `━━━━━━━━━━━━━━━━━━%0A`;
+        msg += `👤 ${name}%0A`;
+        msg += `📞 ${phone}%0A`;
+        msg += `📍 ${address}%0A`;
+        msg += `💳 ${payment}%0A%0A`;
+        msg += `📦 *DÉTAILS*%0A`;
+        msg += `─────────────────%0A`;
+        
+        cart.forEach((item, i) => { 
+            msg += `${i+1}. ${item.name} x${item.quantity} = ${(item.price * item.quantity).toLocaleString()} FCFA%0A`; 
+        });
+        
+        msg += `─────────────────%0A`;
+        msg += `💰 *TOTAL: ${total.toLocaleString()} FCFA*%0A`;
+        msg += `━━━━━━━━━━━━━━━━━━%0A`;
+        if (comment) msg += `%0A💬 ${comment}%0A`;
+        msg += `%0A_Merci !_ 🙏`;
+        
+        window.open(`https://wa.me/2250758167537?text=${msg}`, '_blank');
+        
+        cart = [];
+        saveCart();
+        updateCartCount();
+        updateCartModal();
+        closeCheckout();
+        showToast("Commande envoyée ! 🎉", "success");
+        this.reset();
+    });
+}
 
-// ========== STOCKAGE ==========
-function saveCart() { localStorage.setItem("urbanStoreCart", JSON.stringify(cart)); }
-function loadCart() { const saved = localStorage.getItem("urbanStoreCart"); if (saved) { cart = JSON.parse(saved); updateCartModal(); } }
+// ========== STOCKAGE LOCAL ==========
+function saveCart() { 
+    localStorage.setItem("urbanStoreCart", JSON.stringify(cart)); 
+}
 
-// ========== NOTIFICATION ==========
+function loadCart() { 
+    const saved = localStorage.getItem("urbanStoreCart"); 
+    if (saved) { 
+        cart = JSON.parse(saved); 
+        updateCartModal(); 
+    } 
+}
+
+// ========== NOTIFICATIONS ==========
 function showToast(message, type = "success") {
     const toast = document.getElementById("toast");
     toast.textContent = message;
@@ -235,7 +299,6 @@ window.addEventListener('load', function() {
     const preloader = document.getElementById('preloader');
     const percentElement = document.getElementById('loaderPercent');
     
-    // Animation du pourcentage
     let percent = 0;
     const interval = setInterval(() => {
         if (percent < 100) {
@@ -247,7 +310,6 @@ window.addEventListener('load', function() {
         }
     }, 150);
     
-    // Cacher le preloader
     setTimeout(() => {
         if (preloader) {
             preloader.classList.add('hide');
@@ -256,11 +318,13 @@ window.addEventListener('load', function() {
     }, 2000);
 });
 
-// ========== FERMETURE MODALS ==========
+// ========== FERMETURE MODALS (CLIC EXTERIEUR) ==========
 window.onclick = function(event) {
-    if (event.target === document.getElementById("cartModal")) closeCart();
-    if (event.target === document.getElementById("checkoutModal")) closeCheckout();
+    const cartModal = document.getElementById("cartModal");
+    const checkoutModal = document.getElementById("checkoutModal");
+    if (event.target === cartModal) closeCart();
+    if (event.target === checkoutModal) closeCheckout();
 }
 
-// DÉMARRAGE
+// ========== DÉMARRAGE ==========
 init();
