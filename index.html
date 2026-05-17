@@ -4,24 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urban Store - Boutique Premium en Ligne</title>
-    <meta name="description" content="Découvrez les meilleurs produits : mode, électronique, maison. Livraison gratuite dès 50 000 FCFA.">
-    <link rel="icon" href="images/logo/logo.png">
+    <meta name="description" content="Découvrez Urban Store - Votre boutique en ligne pour la mode, l'électronique, la maison et le sport. Livraison gratuite dès 50 000 FCFA.">
+    <meta name="keywords" content="ecommerce, boutique en ligne, mode, électronique, Côte d'Ivoire, Abidjan">
+    <meta name="author" content="Urban Store">
+    
+    <!-- ICÔNE (FAVICON) - VOTRE IMAGE ICON.PNG -->
+    <link rel="icon" type="image/png" href="images/icon.PNG">
+    <link rel="apple-touch-icon" href="images/icon.PNG">
+    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- ========== PRELOADER ========== -->
+<div id="preloader">
+    <div class="loader-container">
+        <div class="spinner"></div>
+        <div class="loader-text">
+            <span class="letter" style="--i:0">U</span>
+            <span class="letter" style="--i:1">R</span>
+            <span class="letter" style="--i:2">B</span>
+            <span class="letter" style="--i:3">A</span>
+            <span class="letter" style="--i:4">N</span>
+            <span class="letter" style="--i:5"> </span>
+            <span class="letter" style="--i:6">S</span>
+            <span class="letter" style="--i:7">T</span>
+            <span class="letter" style="--i:8">O</span>
+            <span class="letter" style="--i:9">R</span>
+            <span class="letter" style="--i:10">E</span>
+        </div>
+        <p class="loader-subtitle">Junior Dev E-commerce</p>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <p class="loader-percent" id="loaderPercent">0%</p>
+    </div>
+</div>
+
 <!-- HEADER -->
 <header class="header">
     <div class="container">
         <div class="logo">
-            <img src="images/logo/logo.png" alt="Urban Store">
+            <!-- VOTRE ICÔNE DANS LE MENU EN HAUT -->
+            <img src="images/icon.PNG" alt="Urban Store" class="logo-img">
             <span>URBAN<span class="highlight">STORE</span></span>
         </div>
 
         <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Rechercher un produit...">
+            <input type="text" id="searchInput" placeholder="🔍 Rechercher un produit...">
             <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
         </div>
 
@@ -56,7 +88,7 @@
     <div class="container">
         <div class="hero-content">
             <span class="hero-badge">PROMO -20%</span>
-            <h1>Nouvelle Collection<br><span class="highlight">Automne/Hiver 2024</span></h1>
+            <h1>Junior Dev<br><span class="highlight">E-commerce</span></h1>
             <p>Découvrez les dernières tendances avec livraison gratuite</p>
             <button class="btn-primary" onclick="filterProducts('mode')">Acheter Maintenant <i class="fas fa-arrow-right"></i></button>
         </div>
@@ -132,7 +164,7 @@
         <div class="footer-grid">
             <div class="footer-col">
                 <div class="footer-logo">
-                    <img src="images/logo/logo.png" alt="Urban Store">
+                    <img src="images/icon.PNG" alt="Urban Store">
                     <span>URBAN STORE</span>
                 </div>
                 <p>Votre boutique premium en ligne. Qualité et satisfaction garanties.</p>
@@ -171,7 +203,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 Urban Store - Tous droits réservés</p>
+            <p>&copy; 2024 Urban Store - Tous droits réservés | Junior Dev E-commerce</p>
             <div class="payment-methods">
                 <i class="fab fa-cc-visa"></i>
                 <i class="fab fa-cc-mastercard"></i>
@@ -213,31 +245,31 @@
         <div class="modal-body">
             <form id="checkoutForm">
                 <div class="form-group">
-                    <label>Nom complet</label>
+                    <label>Nom complet *</label>
                     <input type="text" id="clientName" required placeholder="Jean Kouadio">
                 </div>
                 <div class="form-group">
-                    <label>Téléphone</label>
+                    <label>Téléphone *</label>
                     <input type="tel" id="clientPhone" required placeholder="07 58 16 75 37">
                 </div>
                 <div class="form-group">
-                    <label>Adresse de livraison</label>
+                    <label>Adresse de livraison *</label>
                     <textarea id="clientAddress" required placeholder="Votre adresse complète"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Mode de paiement</label>
                     <select id="paymentMethod">
-                        <option value="whatsapp">Commande WhatsApp</option>
-                        <option value="orange">Orange Money</option>
-                        <option value="mtn">MTN Mobile Money</option>
-                        <option value="delivery">Paiement à la livraison</option>
+                        <option value="whatsapp">📲 Commande WhatsApp</option>
+                        <option value="orange">💰 Orange Money</option>
+                        <option value="mtn">💳 MTN Mobile Money</option>
+                        <option value="delivery">🚚 Paiement à la livraison</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Commentaire (optionnel)</label>
                     <textarea id="clientComment" placeholder="Instructions spéciales..."></textarea>
                 </div>
-                <button type="submit" class="btn-primary btn-block">Confirmer la commande</button>
+                <button type="submit" class="btn-primary btn-block">✅ Confirmer la commande</button>
             </form>
         </div>
     </div>
