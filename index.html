@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Store - Boutique Premium en Ligne</title>
+    <meta name="description" content="Découvrez les meilleurs produits : mode, électronique, maison. Livraison gratuite dès 50 000 FCFA.">
+    <link rel="icon" href="images/logo/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <img src="images/logo/logo.png" alt="Urban Store">
+            <span>URBAN<span class="highlight">STORE</span></span>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher un produit...">
+            <button onclick="searchProducts()"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="header-actions">
+            <button class="icon-btn" onclick="openCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </button>
+            <button class="icon-btn" onclick="toggleUserMenu()">
+                <i class="fas fa-user"></i>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- NAVIGATION -->
+<nav class="nav-bar">
+    <div class="container">
+        <ul class="nav-links">
+            <li><a href="#" onclick="filterProducts('all')" class="active">🏠 Accueil</a></li>
+            <li><a href="#" onclick="filterProducts('mode')">👕 Mode</a></li>
+            <li><a href="#" onclick="filterProducts('electronique')">💻 Électronique</a></li>
+            <li><a href="#" onclick="filterProducts('maison')">🏠 Maison</a></li>
+            <li><a href="#" onclick="filterProducts('sport')">⚽ Sport</a></li>
+            <li><a href="#" onclick="filterProducts('beaute')">💄 Beauté</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- BANNIÈRE HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <span class="hero-badge">PROMO -20%</span>
+            <h1>Nouvelle Collection<br><span class="highlight">Automne/Hiver 2024</span></h1>
+            <p>Découvrez les dernières tendances avec livraison gratuite</p>
+            <button class="btn-primary" onclick="filterProducts('mode')">Acheter Maintenant <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+</section>
+
+<!-- CATÉGORIES POPULAIRES -->
+<section class="categories">
+    <div class="container">
+        <h2 class="section-title">Catégories <span class="highlight">Populaires</span></h2>
+        <div class="categories-grid">
+            <div class="category-card" onclick="filterProducts('mode')">
+                <i class="fas fa-tshirt"></i>
+                <h3>Mode</h3>
+                <p>45 produits</p>
+            </div>
+            <div class="category-card" onclick="filterProducts('electronique')">
+                <i class="fas fa-laptop"></i>
+                <h3>Électronique</h3>
+                <p>32 produits</p>
+            </div>
+            <div class="category-card" onclick="filterProducts('maison')">
+                <i class="fas fa-home"></i>
+                <h3>Maison</h3>
+                <p>28 produits</p>
+            </div>
+            <div class="category-card" onclick="filterProducts('sport')">
+                <i class="fas fa-futbol"></i>
+                <h3>Sport</h3>
+                <p>19 produits</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUITS -->
+<section class="products-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Nos <span class="highlight">Meilleures Ventes</span></h2>
+            <div class="sort-options">
+                <select id="sortSelect" onchange="sortProducts()">
+                    <option value="default">Trier par</option>
+                    <option value="price-asc">Prix croissant</option>
+                    <option value="price-desc">Prix décroissant</option>
+                    <option value="name-asc">Nom A-Z</option>
+                </select>
+            </div>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+        <div class="loading" id="loading" style="display: none;">Chargement...</div>
+    </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+    <div class="container">
+        <div class="newsletter-content">
+            <i class="fas fa-envelope"></i>
+            <h3>Recevez nos offres exclusives</h3>
+            <p>Inscrivez-vous et recevez -10% sur votre première commande</p>
+            <form id="newsletterForm">
+                <input type="email" placeholder="Votre email" required>
+                <button type="submit">S'abonner</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="images/logo/logo.png" alt="Urban Store">
+                    <span>URBAN STORE</span>
+                </div>
+                <p>Votre boutique premium en ligne. Qualité et satisfaction garanties.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Liens rapides</h4>
+                <ul>
+                    <li><a href="#">À propos</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Livraison</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Mon compte</h4>
+                <ul>
+                    <li><a href="#">Mes commandes</a></li>
+                    <li><a href="#">Mon panier</a></li>
+                    <li><a href="#">Wishlist</a></li>
+                    <li><a href="#">Retours</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +225 07 58 16 75 37</li>
+                    <li><i class="fas fa-envelope"></i> contact@urbanstore.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Abidjan, Côte d'Ivoire</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Urban Store - Tous droits réservés</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-paypal"></i>
+                <span>Orange Money</span>
+                <span>MTN Money</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- MODAL PANIER -->
+<div class="modal" id="cartModal">
+    <div class="modal-content modal-large">
+        <div class="modal-header">
+            <h3><i class="fas fa-shopping-cart"></i> Mon Panier</h3>
+            <span class="close" onclick="closeCart()">&times;</span>
+        </div>
+        <div class="modal-body" id="cartItems"></div>
+        <div class="modal-footer">
+            <div class="cart-summary">
+                <div class="cart-total" id="cartTotal"></div>
+                <div class="cart-actions">
+                    <button class="btn-secondary" onclick="closeCart()">Continuer mes achats</button>
+                    <button class="btn-primary" onclick="checkout()">Commander</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CHECKOUT -->
+<div class="modal" id="checkoutModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-check-circle"></i> Finaliser la commande</h3>
+            <span class="close" onclick="closeCheckout()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label>Nom complet</label>
+                    <input type="text" id="clientName" required placeholder="Jean Kouadio">
+                </div>
+                <div class="form-group">
+                    <label>Téléphone</label>
+                    <input type="tel" id="clientPhone" required placeholder="07 58 16 75 37">
+                </div>
+                <div class="form-group">
+                    <label>Adresse de livraison</label>
+                    <textarea id="clientAddress" required placeholder="Votre adresse complète"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Mode de paiement</label>
+                    <select id="paymentMethod">
+                        <option value="whatsapp">Commande WhatsApp</option>
+                        <option value="orange">Orange Money</option>
+                        <option value="mtn">MTN Mobile Money</option>
+                        <option value="delivery">Paiement à la livraison</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Commentaire (optionnel)</label>
+                    <textarea id="clientComment" placeholder="Instructions spéciales..."></textarea>
+                </div>
+                <button type="submit" class="btn-primary btn-block">Confirmer la commande</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" class="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
